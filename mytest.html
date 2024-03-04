@@ -1,0 +1,39 @@
+const message = document.getElementById('message');
+const { createFFmpeg, fetchFile } = FFmpeg;
+const ffmpeg = createFFmpeg({
+    log: true,
+    progress: ({ ratio }) => {
+        message.innerHTML = `Complete: ${(ratio * 100.0).toFixed(2)}%`;
+    },
+});
+
+const transcode = async () => {
+
+    const video = document.getElementById('output-video');
+    URL.revokeObjectURL(video.src);
+
+    const uploaded_video = document.getElementById('uploader').files[0];
+    const name = uploaded_video.name;
+    message.innerHTML = 'Loading ffmpeg-core.js';
+    await ffmpeg.load();
+    message.innerHTML = Loaded.';
+
+    const ffmpeg_params = [];
+    ffmpeg_params.push('-i', name);                  // input file name
+    ffmpeg_params.push('-vf', 'v360=fisheye:e:ih_fov=200:iv_fov=200');          
+    
+    ffmpeg_params.push('outputjpg');                // output file name
+
+    message.innerHTML = 'Start reprojecting...';
+    ffmpeg.FS('writeFile', name, await fetchFile(uploaded_video));
+    await ffmpeg.run(...ffmpeg_params);
+    message.innerHTML = 'Completed';
+    const data = ffmpeg.FS('readFile', 'output.mp4');
+    const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'image/jpeg' }));
+
+    video.src = videoUrl;
+    document.getElementById('download').href = videoUrl;
+    document.getElementById('download').download = 'converted.mp4';
+}
+
+document.getElementById('start-convert').addEventListener('click', transcode);
