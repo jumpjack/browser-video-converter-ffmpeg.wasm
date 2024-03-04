@@ -93,7 +93,11 @@
   <video id="output-video" controls></video><br/>
 </body>
 
-<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>
+<!--<script src="https://unpkg.com/@ffmpeg/ffmpeg@0.11.6/dist/ffmpeg.min.js"></script>-->
+  
+    <script src='https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.js', 'text/javascript'></script>
+    <script src='https://unpkg.com/@ffmpeg/core@0.12.6/dist/umd/ffmpeg-core.wasm',  'application/wasm'></script>
+    
 <script src="./index.js"></script>
 
 </html>
