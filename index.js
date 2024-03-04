@@ -27,7 +27,7 @@ const transcode = async () => {
 
     const ffmpeg_params = [];
     ffmpeg_params.push('-i', name);                  // input file name
-    ffmpeg_params.push('-c:v', 'libx264');           // convert to h264
+    ffmpeg_params.push('-vf', 'v360=fisheye:e:ih_fov=200:iv_fov=200');          
     if (codec_profile) {
         ffmpeg_params.push('-profile', codec_profile); // h264 codec profile
         if (codec_level) {
@@ -52,14 +52,14 @@ const transcode = async () => {
     if (need_deinterlace) {
         ffmpeg_params.push('-vf', 'yadif=deint=interlaced'); // deinterlace
     }
-    ffmpeg_params.push('output.mp4');                // output file name
+    ffmpeg_params.push('output.jpg');                // output file name
 
     message.innerHTML = 'Start transcoding';
     ffmpeg.FS('writeFile', name, await fetchFile(uploaded_video));
     await ffmpeg.run(...ffmpeg_params);
     message.innerHTML = 'Complete transcoding';
-    const data = ffmpeg.FS('readFile', 'output.mp4');
-    const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'video/mp4' }));
+    const data = ffmpeg.FS('readFile', 'output.jpg');
+    const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'image/jpeg' }));
 
     video.src = videoUrl;
     document.getElementById('download').href = videoUrl;
