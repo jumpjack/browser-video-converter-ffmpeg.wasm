@@ -16,7 +16,7 @@ const transcode = async () => {
     const name = uploaded_video.name;
     message.innerHTML = 'Loading ffmpeg-core.js';
     await ffmpeg.load();
-    message.innerHTML = Loaded.';
+    message.innerHTML = 'Loaded.';
 
     const ffmpeg_params = [];
     ffmpeg_params.push('-i', name);                  // input file name
