@@ -22,18 +22,18 @@ const transcode = async () => {
     ffmpeg_params.push('-i', name);                  // input file name
     ffmpeg_params.push('-vf', 'v360=fisheye:e:ih_fov=200:iv_fov=200');          
     
-    ffmpeg_params.push('outputjpg');                // output file name
+    ffmpeg_params.push('output.jpg');                // output file name
 
     message.innerHTML = 'Start reprojecting...';
     ffmpeg.FS('writeFile', name, await fetchFile(uploaded_video));
     await ffmpeg.run(...ffmpeg_params);
     message.innerHTML = 'Completed';
-    const data = ffmpeg.FS('readFile', 'output.mp4');
+    const data = ffmpeg.FS('readFile', 'jpg');
     const videoUrl = URL.createObjectURL(new Blob([data.buffer], { type: 'image/jpeg' }));
 
     video.src = videoUrl;
     document.getElementById('download').href = videoUrl;
-    document.getElementById('download').download = 'converted.mp4';
+    document.getElementById('download').download = 'jpg';
 }
 
 document.getElementById('start-convert').addEventListener('click', transcode);
